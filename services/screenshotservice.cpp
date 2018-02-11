@@ -48,7 +48,7 @@ void ScreenshotService::onCharacteristicChanged(const QLowEnergyCharacteristic &
         if(m_firstNotify) {
             m_totalSize = (value[0] << 0 | value[1] << 8 | value[2] << 16 | value[3] << 24);
             m_totalData.resize(m_totalSize);
-            m_progress == 0;
+            m_progress = 0;
             m_firstNotify = false;
         } else {
             const char *data = reinterpret_cast<const char *>(value.constData());
