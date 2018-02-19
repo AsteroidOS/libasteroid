@@ -39,6 +39,8 @@ class WatchConnection : public QObject
 public:
     explicit WatchConnection(QObject *parent = nullptr);
     void setDevice(Watch *device);
+    bool isConnected();
+    Watch *currentWatch();
 
     BatteryService *batteryService();
     MediaService *mediaService();
@@ -52,6 +54,7 @@ signals:
     void disconnected();
     void error(QLowEnergyController::Error);
     void servicesDiscovered();
+    void currentWatchChanged();
 
 public slots:
     void disconnectService();
@@ -72,6 +75,8 @@ private:
     ScreenshotService *m_screenshotService;
     TimeService *m_timeService;
     WeatherService *m_weatherService;
+
+    bool m_isConnected;
 
     void serviceDiscovered(const QBluetoothUuid &);
     void serviceScanDone();

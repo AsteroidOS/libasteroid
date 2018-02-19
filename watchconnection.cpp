@@ -20,6 +20,7 @@
 WatchConnection::WatchConnection(QObject *parent) : QObject(parent)
 {
     m_control = nullptr;
+    m_currentDevice = nullptr;
 
     m_batteryService = new BatteryService();
     m_mediaService = new MediaService();
@@ -34,11 +35,16 @@ WatchConnection::WatchConnection(QObject *parent) : QObject(parent)
     m_services.append(m_screenshotService);
     m_services.append(m_timeService);
     m_services.append(m_weatherService);
+
+    m_isConnected = false;
 }
 
 void WatchConnection::setDevice(Watch *device)
 {
-    m_currentDevice = device;
+    if(m_currentDevice != device) {
+        m_currentDevice = device;
+        emit currentWatchChanged();
+    }
 
     if (m_control) {
         m_control->disconnectFromDevice();
@@ -66,13 +72,25 @@ void WatchConnection::connectionError(QLowEnergyController::Error err)
 
 void WatchConnection::deviceConnected()
 {
+    m_isConnected = true;
     emit connected();
     m_control->discoverServices();
 }
 
 void WatchConnection::deviceDisconnected()
 {
+    m_isConnected = false;
     emit disconnected();
+}
+
+bool WatchConnection::isConnected()
+{
+    return m_isConnected;
+}
+
+Watch *WatchConnection::currentWatch()
+{
+    return m_currentDevice;
 }
 
 void WatchConnection::serviceDiscovered(const QBluetoothUuid &gatt)
