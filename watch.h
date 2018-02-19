@@ -29,12 +29,10 @@ class Watch: public QObject
     Q_OBJECT
 
 public:
-    Watch();
-    Watch(const QBluetoothDeviceInfo &d);
-    QString getAddress() const;
-    QString getName() const;
+    Watch(QBluetoothDeviceInfo d);
+    QBluetoothAddress getAddress();
+    QString getName();
     QBluetoothDeviceInfo getDevice();
-    void setDevice(const QBluetoothDeviceInfo &dev);
 
 signals:
     void deviceChanged();

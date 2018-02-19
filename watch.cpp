@@ -17,17 +17,17 @@
 
 #include "watch.h"
 
-Watch::Watch(const QBluetoothDeviceInfo &d)
+Watch::Watch(QBluetoothDeviceInfo d)
 {
     device = d;
 }
 
-QString Watch::getAddress() const
+QBluetoothAddress Watch::getAddress()
 {
-    return device.address().toString();
+    return device.address();
 }
 
-QString Watch::getName() const
+QString Watch::getName()
 {
     return device.name();
 }
@@ -35,10 +35,4 @@ QString Watch::getName() const
 QBluetoothDeviceInfo Watch::getDevice()
 {
     return device;
-}
-
-void Watch::setDevice(const QBluetoothDeviceInfo &dev)
-{
-    device = QBluetoothDeviceInfo(dev);
-    emit deviceChanged();
 }
