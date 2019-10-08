@@ -37,6 +37,9 @@ WatchConnection::WatchConnection(QObject *parent) : QObject(parent)
     m_services.append(m_weatherService);
 
     m_isConnected = false;
+
+    m_reconnectTimer.setSingleShot(true);
+    QObject::connect(&m_reconnectTimer, &QTimer::timeout, this, &WatchConnection::reconnect);
 }
 
 void WatchConnection::setDevice(Watch *device)
@@ -46,6 +49,24 @@ void WatchConnection::setDevice(Watch *device)
         emit currentWatchChanged();
     }
 
+    m_connectionAttempts = 0;
+    scheduleReconnect();
+}
+
+void WatchConnection::scheduleReconnect()
+{
+    if (m_connectionAttempts == 0)
+        reconnect();
+    else if (m_connectionAttempts < 25)
+        m_reconnectTimer.start(1000 * 10);
+    else if (m_connectionAttempts < 35)
+        m_reconnectTimer.start(1000 * 60);
+    else
+        m_reconnectTimer.start(1000 * 60 * 15);
+}
+
+void WatchConnection::reconnect()
+{
     if (m_control) {
         m_control->disconnectFromDevice();
         delete m_control;
@@ -63,6 +84,7 @@ void WatchConnection::setDevice(Watch *device)
 
         m_control->connectToDevice();
     }
+    m_connectionAttempts++;
 }
 
 void WatchConnection::connectionError(QLowEnergyController::Error err)
@@ -75,12 +97,15 @@ void WatchConnection::deviceConnected()
     m_isConnected = true;
     emit connected();
     m_control->discoverServices();
+    m_connectionAttempts = 1;
 }
 
 void WatchConnection::deviceDisconnected()
 {
     m_isConnected = false;
     emit disconnected();
+    if (!m_reconnectTimer.isActive())
+        scheduleReconnect();
 }
 
 bool WatchConnection::isConnected()
