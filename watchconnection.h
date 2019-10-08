@@ -19,6 +19,7 @@
 #define WATCHCONNECTION_H
 
 #include <QObject>
+#include <QTimer>
 
 #include <QLowEnergyController>
 #include <QLowEnergyService>
@@ -77,9 +78,13 @@ private:
     WeatherService *m_weatherService;
 
     bool m_isConnected;
+    int m_connectionAttempts = 0;
+    QTimer m_reconnectTimer;
 
     void serviceDiscovered(const QBluetoothUuid &);
     void serviceScanDone();
+    void scheduleReconnect();
+    void reconnect();
 
     void serviceStateChanged(QLowEnergyService::ServiceState s);
     void updateHeartRateValue(const QLowEnergyCharacteristic &c, const QByteArray &value);
