@@ -33,6 +33,8 @@ public:
 
     bool insertNotification(QString packageName, unsigned int id, QString appName, QString icon, QString summary, QString body, Vibrate vibrate);
     bool removeNotification(unsigned int id);
+    void setVibration(const QString v);
+    Vibrate getVibration();
 
 protected:
     void onServiceDiscovered() override;
@@ -41,6 +43,7 @@ protected:
 private:
     QLowEnergyCharacteristic m_updateChrc;
     QLowEnergyCharacteristic m_feedbackChrc;
+    Vibrate m_vibrate = Normal;
 };
 
 #endif // NOTIFICATIONSERVICE_H
