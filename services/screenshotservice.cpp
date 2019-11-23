@@ -47,14 +47,12 @@ void ScreenshotService::onCharacteristicChanged(const QLowEnergyCharacteristic &
     if (c.uuid() == QBluetoothUuid(QString(SCREENSH_CON_UUID))) {
         if(m_firstNotify) {
             m_totalSize = (value[0] << 0 | value[1] << 8 | value[2] << 16 | value[3] << 24);
-            m_totalData.resize(m_totalSize);
+            m_totalData.resize(0);
             m_progress = 0;
             m_firstNotify = false;
         } else {
-            const char *data = reinterpret_cast<const char *>(value.constData());
-            m_totalData.setRawData(data, m_progress);
             m_progress += value.size();
-
+            m_totalData += value;
             if(m_progress == m_totalSize) {
                 emit screenshotReceived(m_totalData);
                 m_downloading = false;
