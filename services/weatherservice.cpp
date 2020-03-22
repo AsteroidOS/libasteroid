@@ -42,7 +42,7 @@ bool WeatherService::setCity(QString city)
 
 bool WeatherService::setIds(QList<short> l)
 {
-    if(m_service && m_cityChrc.isValid()) {
+    if(m_service && m_idsChrc.isValid()) {
         QByteArray data(10, 0);
 
         for(int i = 0; i < l.length() && i < 5; i++) {
@@ -50,7 +50,7 @@ bool WeatherService::setIds(QList<short> l)
             data[(2*i)+1] = (quint8)(l[i]);
         }
 
-        m_service->writeCharacteristic(m_cityChrc, data, QLowEnergyService::WriteWithoutResponse);
+        m_service->writeCharacteristic(m_idsChrc, data, QLowEnergyService::WriteWithoutResponse);
         return true;
     } else
         return false;
