@@ -34,6 +34,9 @@ bool NotificationService::insertNotification(QString packageName, unsigned int i
     if(m_service && m_updateChrc.isValid()) {
         QString vibrateStr;
         switch(vibrate) {
+        case Ringtone:
+            vibrateStr = "ringtone";
+            break;
         case Strong:
             vibrateStr = "strong";
             break;
