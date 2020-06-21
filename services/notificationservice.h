@@ -27,7 +27,7 @@ class NotificationService : public Service
     Q_OBJECT
 
 public:
-    enum Vibrate { Strong, Normal, None };
+    enum Vibrate { Ringtone, Strong, Normal, None };
 
     NotificationService();
 
