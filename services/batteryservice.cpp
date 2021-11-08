@@ -43,8 +43,8 @@ quint8 BatteryService::level()
 void BatteryService::onCharacteristicChanged(const QLowEnergyCharacteristic &c, const QByteArray &value)
 {
     if (c.uuid() == QBluetoothUuid(QString(BATTERY_LVL_UUID))) {
-        const quint8 *data = reinterpret_cast<const quint8 *>(value.constData());
-        quint8 val = data[0];
+        //const quint8 *data = reinterpret_cast<const quint8 *>(value.constData());
+        quint8 val = value[0];
 
         emit levelChanged(val);
     }

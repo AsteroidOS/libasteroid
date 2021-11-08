@@ -74,11 +74,11 @@ void WatchConnection::reconnect()
     }
 
     if (m_currentDevice) {
-        m_control = new QLowEnergyController(m_currentDevice->getDevice(), this);
+        m_control = QLowEnergyController::createCentral(m_currentDevice->getDevice(), this);
         m_control->setRemoteAddressType(QLowEnergyController::PublicAddress);
         connect(m_control, &QLowEnergyController::serviceDiscovered, this, &WatchConnection::serviceDiscovered);
         connect(m_control, &QLowEnergyController::discoveryFinished, this, &WatchConnection::serviceScanDone);
-        connect(m_control, SIGNAL(error(QLowEnergyController::Error)), this, SLOT(connectionError(QLowEnergyController::Error)));
+        connect(m_control, QOverload<QLowEnergyController::Error>::of(&QLowEnergyController::error), this, &WatchConnection::connectionError);
         connect(m_control, &QLowEnergyController::connected, this, &WatchConnection::deviceConnected);
         connect(m_control, &QLowEnergyController::disconnected, this, &WatchConnection::deviceDisconnected);
 
