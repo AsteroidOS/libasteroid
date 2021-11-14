@@ -23,7 +23,7 @@ Scanner::Scanner(QObject *parent) : QObject(parent)
 {
     discoveryAgent = new QBluetoothDeviceDiscoveryAgent();
     connect(discoveryAgent, &QBluetoothDeviceDiscoveryAgent::deviceDiscovered, this, &Scanner::addDevice);
-    connect(discoveryAgent, SIGNAL(error(QBluetoothDeviceDiscoveryAgent::Error)), this, SLOT(deviceScanError(QBluetoothDeviceDiscoveryAgent::Error)));
+    connect(discoveryAgent, QOverload<QBluetoothDeviceDiscoveryAgent::Error>::of(&QBluetoothDeviceDiscoveryAgent::error), this, [=](QBluetoothDeviceDiscoveryAgent::Error error){ this->scanError(error); });
     connect(discoveryAgent, &QBluetoothDeviceDiscoveryAgent::finished, this, &Scanner::scanFinished);
 }
 
@@ -48,9 +48,8 @@ void Scanner::stopScan()
 
 void Scanner::addDevice(const QBluetoothDeviceInfo &info)
 {
-    if (info.coreConfigurations() &&
-            QBluetoothDeviceInfo::LowEnergyCoreConfiguration &&
-            info.serviceUuids().contains(QBluetoothUuid(QString(BATTERY_UUID)))) {
+    if ((info.coreConfigurations() & QBluetoothDeviceInfo::LowEnergyCoreConfiguration)
+            && info.serviceUuids().contains(QBluetoothUuid(QString(BATTERY_UUID)))) {
         Watch *w = new Watch(info);
         devices.append(w);
         emit watchFound(w);
