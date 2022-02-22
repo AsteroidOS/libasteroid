@@ -91,6 +91,10 @@ void MediaService::onCharacteristicChanged(const QLowEnergyCharacteristic &c, co
         case 0x3:
             emit pause();
             break;
+        case 0x4:
+            quint8 vol = data[1];
+            emit volume(vol);
+            break;
         }
     }
 }

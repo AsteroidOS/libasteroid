@@ -39,6 +39,7 @@ signals:
     bool next();
     bool play();
     bool pause();
+    bool volume(quint8);
 
 protected:
     void onServiceDiscovered() override;
