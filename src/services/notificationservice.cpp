@@ -66,18 +66,3 @@ bool NotificationService::removeNotification(unsigned int id)
     } else
         return false;
 }
-
-void NotificationService::setVibration(const QString v)
-{
-  if(v == "Strong")
-    m_vibrate = Strong;
-  else if( v == "Normal")
-    m_vibrate = Normal;
-  else
-    m_vibrate = None;
-}
-
-NotificationService::Vibrate NotificationService::getVibration()
-{
-    return m_vibrate;
-}
