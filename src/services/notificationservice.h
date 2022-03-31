@@ -27,11 +27,11 @@ class NotificationService : public Service
     Q_OBJECT
 
 public:
-    enum Vibrate { Ringtone, Strong, Normal, None };
 
     NotificationService();
 
-    bool insertNotification(QString packageName, unsigned int id, QString appName, QString icon, QString summary, QString body, Vibrate vibrate);
+    // for vibrate, valid options are { "ringtone", "strong", "normal", "none" }
+    bool insertNotification(QString packageName, unsigned int id, QString appName, QString icon, QString summary, QString body, QString vibrate);
     bool removeNotification(unsigned int id);
 
 protected:
