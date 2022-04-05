@@ -22,6 +22,15 @@
 
 #include "service.h"
 
+struct WeatherDay 
+{
+    short m_wxIcon = 0;
+    short m_loTemp = 0;
+    short m_hiTemp = 0;
+};
+
+Q_DECLARE_METATYPE(WeatherDay);
+
 class WeatherService : public Service
 {
     Q_OBJECT
@@ -33,6 +42,7 @@ public:
     bool setIds(QList<short> l);
     bool setMinTemps(QList<short> l);
     bool setMaxTemps(QList<short> l);
+    bool setWeatherDays(QList<WeatherDay> wd);
 
 protected:
     void onServiceDiscovered() override;
