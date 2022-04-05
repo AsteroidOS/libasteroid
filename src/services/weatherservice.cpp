@@ -87,3 +87,17 @@ bool WeatherService::setMaxTemps(QList<short> l)
     } else
         return false;
 }
+
+bool WeatherService::setWeatherDays(QList<WeatherDay> wd)
+{
+    QList<short> icons;
+    QList<short> minTemps;
+    QList<short> maxTemps;
+
+    for(int i = 0; i < wd.length() && i < 5; ++i) {
+        icons.push_back(wd[i].m_wxIcon);
+        minTemps.push_back(wd[i].m_loTemp);
+        maxTemps.push_back(wd[i].m_hiTemp);
+    }
+    return setIds(icons) && setMinTemps(minTemps) && setMaxTemps(maxTemps);
+}
