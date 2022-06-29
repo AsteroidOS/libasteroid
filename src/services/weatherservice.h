@@ -29,7 +29,7 @@ struct WeatherDay
     short m_hiTemp = 0;
 };
 
-Q_DECLARE_METATYPE(WeatherDay);
+Q_DECLARE_METATYPE(WeatherDay)
 
 class WeatherService : public Service
 {
