@@ -43,11 +43,11 @@ private:
     QLowEnergyCharacteristic m_reqChrc;
     QLowEnergyCharacteristic m_conChrc;
 
-    bool m_firstNotify;
+    bool m_firstNotify = true;
     bool m_downloading;
     QByteArray m_totalData;
     unsigned int m_progress;
-    unsigned int m_totalSize;
+    unsigned int m_totalSize = 1;
 };
 
 #endif // SCREENSHOTSERVICE_H
