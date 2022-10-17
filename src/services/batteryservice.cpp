@@ -24,7 +24,11 @@ void BatteryService::onServiceDiscovered()
 {
     m_lvlChrc = m_service->characteristic(QBluetoothUuid(QString(BATTERY_LVL_UUID)));
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 2, 0)
+    QLowEnergyDescriptor notification = m_lvlChrc.descriptor(QBluetoothUuid::DescriptorType::ClientCharacteristicConfiguration);
+#else
     QLowEnergyDescriptor notification = m_lvlChrc.descriptor(QBluetoothUuid::ClientCharacteristicConfiguration);
+#endif
     m_service->writeDescriptor(notification, QByteArray::fromHex("0100"));
 
     if(m_lvlChrc.isValid())

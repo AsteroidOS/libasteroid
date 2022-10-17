@@ -78,7 +78,11 @@ void WatchConnection::reconnect()
         m_control->setRemoteAddressType(QLowEnergyController::PublicAddress);
         connect(m_control, &QLowEnergyController::serviceDiscovered, this, &WatchConnection::serviceDiscovered);
         connect(m_control, &QLowEnergyController::discoveryFinished, this, &WatchConnection::serviceScanDone);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 2, 0)
+        connect(m_control, &QLowEnergyController::errorOccurred, this, &WatchConnection::connectionError);
+#else
         connect(m_control, QOverload<QLowEnergyController::Error>::of(&QLowEnergyController::error), this, &WatchConnection::connectionError);
+#endif
         connect(m_control, &QLowEnergyController::connected, this, &WatchConnection::deviceConnected);
         connect(m_control, &QLowEnergyController::disconnected, this, &WatchConnection::deviceDisconnected);
 

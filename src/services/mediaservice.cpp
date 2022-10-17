@@ -28,7 +28,11 @@ void MediaService::onServiceDiscovered()
     m_playingChrc = m_service->characteristic(QBluetoothUuid(QString(MEDIA_PLAY_UUID)));
     m_commandChrc = m_service->characteristic(QBluetoothUuid(QString(MEDIA_COMM_UUID)));
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 2, 0)
+    QLowEnergyDescriptor notification = m_commandChrc.descriptor(QBluetoothUuid::DescriptorType::ClientCharacteristicConfiguration);
+#else
     QLowEnergyDescriptor notification = m_commandChrc.descriptor(QBluetoothUuid::ClientCharacteristicConfiguration);
+#endif
     m_service->writeDescriptor(notification, QByteArray::fromHex("0100"));
 
     if(m_titleChrc.isValid() && m_albumChrc.isValid() && m_artistChrc.isValid() && m_playingChrc.isValid() && m_commandChrc.isValid())
