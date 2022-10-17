@@ -25,7 +25,11 @@ void ScreenshotService::onServiceDiscovered()
     m_reqChrc = m_service->characteristic(QBluetoothUuid(QString(SCREENSH_REQ_UUID)));
     m_conChrc = m_service->characteristic(QBluetoothUuid(QString(SCREENSH_CON_UUID)));
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 2, 0)
+    QLowEnergyDescriptor notification = m_conChrc.descriptor(QBluetoothUuid::DescriptorType::ClientCharacteristicConfiguration);
+#else
     QLowEnergyDescriptor notification = m_conChrc.descriptor(QBluetoothUuid::ClientCharacteristicConfiguration);
+#endif
     m_service->writeDescriptor(notification, QByteArray::fromHex("0100"));
 
     if(m_reqChrc.isValid() && m_conChrc.isValid())

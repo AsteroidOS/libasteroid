@@ -55,7 +55,11 @@ void Service::disconnectService()
 
 void Service::serviceStateChanged(QLowEnergyService::ServiceState s)
 {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 2, 0)
+    if(s == QLowEnergyService::RemoteServiceDiscovered)
+#else
     if(s == QLowEnergyService::ServiceDiscovered)
+#endif
         onServiceDiscovered();
 }
 

@@ -23,7 +23,11 @@ Scanner::Scanner(QObject *parent) : QObject(parent)
 {
     discoveryAgent = new QBluetoothDeviceDiscoveryAgent();
     connect(discoveryAgent, &QBluetoothDeviceDiscoveryAgent::deviceDiscovered, this, &Scanner::addDevice);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 2, 0)
+    connect(discoveryAgent, &QBluetoothDeviceDiscoveryAgent::errorOccurred, this, [=](QBluetoothDeviceDiscoveryAgent::Error error){ this->scanError(error); });
+#else
     connect(discoveryAgent, QOverload<QBluetoothDeviceDiscoveryAgent::Error>::of(&QBluetoothDeviceDiscoveryAgent::error), this, [=](QBluetoothDeviceDiscoveryAgent::Error error){ this->scanError(error); });
+#endif
     connect(discoveryAgent, &QBluetoothDeviceDiscoveryAgent::finished, this, &Scanner::scanFinished);
 }
 

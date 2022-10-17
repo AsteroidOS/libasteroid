@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.15)
-find_package(Qt5 COMPONENTS Bluetooth REQUIRED)
+find_package(Qt6 COMPONENTS Bluetooth)
+if (NOT Qt6_FOUND)
+    find_package(Qt5 COMPONENTS Bluetooth REQUIRED)
+endif()
 add_library(asteroid SHARED
     watch.cpp
     watchconnection.cpp
@@ -15,7 +18,7 @@ add_library(asteroid SHARED
 target_compile_features(asteroid PUBLIC cxx_std_17)
 set_target_properties(asteroid PROPERTIES AUTOMOC ON)
 target_compile_options(asteroid PRIVATE -Wall -Wextra -pedantic -Werror)
-target_link_libraries(asteroid PRIVATE Qt5::Bluetooth)
+target_link_libraries(asteroid PRIVATE Qt::Bluetooth)
 target_include_directories(asteroid
     PUBLIC
         $<INSTALL_INTERFACE:.>
