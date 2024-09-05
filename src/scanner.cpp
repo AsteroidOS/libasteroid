@@ -53,7 +53,7 @@ void Scanner::stopScan()
 void Scanner::addDevice(const QBluetoothDeviceInfo &info)
 {
     if ((info.coreConfigurations() & QBluetoothDeviceInfo::LowEnergyCoreConfiguration)
-            && info.serviceUuids().contains(QBluetoothUuid(QString(BATTERY_UUID)))) {
+            && info.serviceUuids().contains(QBluetoothUuid(QString(ASTEROID_OS_UUID)))) {
         Watch *w = new Watch(info);
         devices.append(w);
         emit watchFound(w);
