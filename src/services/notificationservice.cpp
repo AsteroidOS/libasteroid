@@ -35,7 +35,7 @@ bool NotificationService::insertNotification(QString packageName, unsigned int i
         QByteArray data = QString("<insert><pn>%1</pn><id>%2</id><an>%3</an><ai>%4</ai><su>%5</su><bo>%6</bo><vb>%7</vb></insert>")
                 .arg(packageName, QString::number(id), appName, icon, summary, body, vibrate).toUtf8();
 
-        m_service->writeCharacteristic(m_updateChrc, data, QLowEnergyService::WriteWithoutResponse);
+        m_service->writeCharacteristic(m_updateChrc, data, QLowEnergyService::WriteWithResponse);
         return true;
     } else
         return false;
@@ -45,7 +45,7 @@ bool NotificationService::removeNotification(unsigned int id)
 {
     if(m_service && m_updateChrc.isValid()) {
         QByteArray data = QString("<removed><id>%1</id></removed>").arg(id).toUtf8();
-        m_service->writeCharacteristic(m_updateChrc, data, QLowEnergyService::WriteWithoutResponse);
+        m_service->writeCharacteristic(m_updateChrc, data, QLowEnergyService::WriteWithResponse);
         return true;
     } else
         return false;

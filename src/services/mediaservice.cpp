@@ -42,7 +42,7 @@ void MediaService::onServiceDiscovered()
 bool MediaService::setTitle(QString title)
 {
     if(m_service && m_titleChrc.isValid()) {
-        m_service->writeCharacteristic(m_titleChrc, title.toUtf8(), QLowEnergyService::WriteWithoutResponse);
+        m_service->writeCharacteristic(m_titleChrc, title.toUtf8(), QLowEnergyService::WriteWithResponse);
         return true;
     } else
         return false;
@@ -51,7 +51,7 @@ bool MediaService::setTitle(QString title)
 bool MediaService::setAlbum(QString album)
 {
     if(m_service && m_albumChrc.isValid()) {
-        m_service->writeCharacteristic(m_albumChrc, album.toUtf8(), QLowEnergyService::WriteWithoutResponse);
+        m_service->writeCharacteristic(m_albumChrc, album.toUtf8(), QLowEnergyService::WriteWithResponse);
         return true;
     } else
         return false;
@@ -60,7 +60,7 @@ bool MediaService::setAlbum(QString album)
 bool MediaService::setArtist(QString artist)
 {
     if(m_service && m_artistChrc.isValid()) {
-        m_service->writeCharacteristic(m_artistChrc, artist.toUtf8(), QLowEnergyService::WriteWithoutResponse);
+        m_service->writeCharacteristic(m_artistChrc, artist.toUtf8(), QLowEnergyService::WriteWithResponse);
         return true;
     } else
         return false;
@@ -70,7 +70,7 @@ bool MediaService::setPlaying(bool playing)
 {
     if(m_service && m_playingChrc.isValid()) {
         QByteArray val = playing ? QByteArray(1, 1) : QByteArray(1, 0);
-        m_service->writeCharacteristic(m_playingChrc, val, QLowEnergyService::WriteWithoutResponse);
+        m_service->writeCharacteristic(m_playingChrc, val, QLowEnergyService::WriteWithResponse);
         return true;
     } else
         return false;

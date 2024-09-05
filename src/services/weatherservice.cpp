@@ -34,7 +34,7 @@ void WeatherService::onServiceDiscovered()
 bool WeatherService::setCity(QString city)
 {
     if(m_service && m_cityChrc.isValid()) {
-        m_service->writeCharacteristic(m_cityChrc, city.toUtf8(), QLowEnergyService::WriteWithoutResponse);
+        m_service->writeCharacteristic(m_cityChrc, city.toUtf8(), QLowEnergyService::WriteWithResponse);
         return true;
     } else
         return false;
@@ -50,7 +50,7 @@ bool WeatherService::setIds(QList<short> l)
             data[(2*i)+1] = (quint8)(l[i]);
         }
 
-        m_service->writeCharacteristic(m_idsChrc, data, QLowEnergyService::WriteWithoutResponse);
+        m_service->writeCharacteristic(m_idsChrc, data, QLowEnergyService::WriteWithResponse);
         return true;
     } else
         return false;
@@ -66,7 +66,7 @@ bool WeatherService::setMinTemps(QList<short> l)
             data[(2*i)+1] = (quint8)(l[i]);
         }
 
-        m_service->writeCharacteristic(m_minTempsChrc, data, QLowEnergyService::WriteWithoutResponse);
+        m_service->writeCharacteristic(m_minTempsChrc, data, QLowEnergyService::WriteWithResponse);
         return true;
     } else
         return false;
@@ -82,7 +82,7 @@ bool WeatherService::setMaxTemps(QList<short> l)
             data[(2*i)+1] = (quint8)(l[i]);
         }
 
-        m_service->writeCharacteristic(m_maxTempsChrc, data, QLowEnergyService::WriteWithoutResponse);
+        m_service->writeCharacteristic(m_maxTempsChrc, data, QLowEnergyService::WriteWithResponse);
         return true;
     } else
         return false;
